@@ -40,9 +40,26 @@
 
 // a conditional expression inside another conditional expression isn't very clear and we've repeated the "magic value" "left" twice. 
 // So now we can refactor, keep the tests passing but change the implementation. For example, how about:
+// function rps(left, right) {
+//   return left === "rock" || right === "paper" ? "left" : "right";
+// }
+
+// write an implementation of the form <condition> ? "left" : "right"; that passes all five tests. 
+// Remember: write the code, call the shot, run the test, compare.
+// function rps(left, right) {
+//   return left === "rock" || right === "paper" || (left === "paper" && right === "rock") ? "left" : "right";
+// }
+
+// Now we've reached a point where, however we try to rearrange it, 
+// we're forced to be explicit about all of the cases. For example, we might write:
 function rps(left, right) {
-  // return left === "rock" || right === "paper" ? "left" : "right";
-  return left === "rock" || right === "paper" || (left === "paper" && right === "rock") ? "left" : "right";
+  return (
+    (left === "rock" && right === "scissors")
+    || (left === "scissors" && right === "paper")
+    || (left === "paper" && right === "rock")
+  )
+    ? "left"
+    : "right";
 }
 
 describe("rock, paper, scissors", () => {
@@ -70,7 +87,7 @@ describe("rock, paper, scissors", () => {
     const result = rps(left, right);
 
     expect(result).toBe("right");
-  })
+  });
 
   it("should say left wins for scissors vs. paper", () => {
     const left = "scissors";
@@ -97,6 +114,15 @@ describe("rock, paper, scissors", () => {
     const result = rps(left, right);
 
     expect(result).toBe("left");
+  });
+
+  it("should say right wins for rock vs. paper", () => {
+    const left = "rock";
+    const right = "paper";
+
+    const result = rps(left, right);
+
+    expect(result).toBe("right");
   });
 
 });
