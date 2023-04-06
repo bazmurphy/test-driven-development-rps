@@ -52,7 +52,21 @@
 
 // Now we've reached a point where, however we try to rearrange it, 
 // we're forced to be explicit about all of the cases. For example, we might write:
+// function rps(left, right) {
+//   return (
+//     (left === "rock" && right === "scissors")
+//     || (left === "scissors" && right === "paper")
+//     || (left === "paper" && right === "rock")
+//   )
+//     ? "left"
+//     : "right";
+// }
+
+// complete the implementation. Maybe something like:
 function rps(left, right) {
+  if (left === right) {
+    return "draw";
+  }
   return (
     (left === "rock" && right === "scissors")
     || (left === "scissors" && right === "paper")
@@ -123,6 +137,16 @@ describe("rock, paper, scissors", () => {
     const result = rps(left, right);
 
     expect(result).toBe("right");
+  });
+
+  // This brings us to the idea of parameterised testing - generating tests based on canned data. 
+  // Jest has built-in functionality to do this, named each, 
+  // https://jestjs.io/docs/api#testeachtablename-fn-timeout
+  // but it's often as easy to do it with an array and forEach:
+  ["rock", "paper", "scissors"].forEach((both) => {
+    it(`should say draw for ${both} vs. ${both}`, () => {
+      expect(rps(both, both)).toBe("draw");
+    })
   });
 
 });
